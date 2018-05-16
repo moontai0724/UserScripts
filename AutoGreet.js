@@ -27,6 +27,7 @@
 
     // 當按鈕點擊就開始
     if (document.getElementById('AutoGreet_startGreet')) document.getElementById('AutoGreet_startGreet').onclick = () => {
+        document.getElementById('AutoGreet_startGreet').setAttribute('disabled', true);
         // 導向到第一頁
         if (BAHAID) {
             sessionStorage.setItem('AutoGreet_greetOrNot', true);
@@ -116,6 +117,7 @@
     }
 
     function startFriendGreet() {
+        document.getElementById('AutoGreet_startFriendGreet').setAttribute('disabled', true);
         $.ajax({
             method: "GET",
             url: "/ajax/friend_getData.php",
