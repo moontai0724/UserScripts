@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特打招呼小工具
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      1.0
+// @version      1.1
 // @description  在巴哈姆特對好友、訂閱者或來訪的巴友打招呼
 // @author       moontai0724
 // @match        https://home.gamer.com.tw/broadcastMore.php*
