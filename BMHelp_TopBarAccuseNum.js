@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特哈拉區頂端列顯示檢舉數提醒與各板檢舉數
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      2.3
+// @version      2.4
 // @description  於巴哈姆特哈拉區頂端列顯示檢舉數提醒與各板檢舉數
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*

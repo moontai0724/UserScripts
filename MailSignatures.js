@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         巴哈姆特信件自訂文字（簽名檔／快速回信）
-// @namespace    https://greasyfork.org/users/165315
-// @version      1.1
+// @namespace    https://home.gamer.com.tw/moontai0724
+// @version      1.2
 // @description  在巴哈姆特寄信件時加上自訂文字（簽名檔／快速回信）
 // @author       moontai0724
 // @match        https://mailbox.gamer.com.tw/send.php*
 // @match        https://mailbox.gamer.com.tw/reply.php*
+// @supportURL   https://home.gamer.com.tw/creationDetail.php?sn=3909381
 // @grant        none
 // ==/UserScript==
 
