@@ -1,6 +1,4 @@
-如果要開啟自動簽到，請在「設定 -> 起始畫面」中新增 https://www.gamer.com.tw/index2.php?ad=N#check
-意思為在開啟瀏覽器時，都會打開 https://www.gamer.com.tw/index2.php?ad=N#check
-當打開 https://www.gamer.com.tw/index2.php?ad=N#check 的時候，自動簽到就會開始。
+現在只要安裝即可自動簽到（當然還是要至少有進到巴哈任何一個頁面），不需要設定首頁囉～
 
 如不需要自動簽到公會，請將 signguild 變數 true 改為 false。
 
