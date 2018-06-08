@@ -53,7 +53,7 @@
                                         },
                                         onload: data => {
                                             console.log("signed: ", guild_list[sort]);
-                                            sort < guild_list.length - 1 ? sign(sort + 1) : console.log('Guild sign success!');
+                                            sort < guild_list.length - 1 ? sign(sort + 1) : (console.log('Guild sign success!'), localStorage.getItem('LastAutoSignTime', (new Date()).getTime()));
                                         }
                                     })();
                                 }) : console.log('No guild.');
