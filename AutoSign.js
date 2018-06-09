@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.0
+// @version      3.1
 // @description  巴哈姆特自動簽到（含公會） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -62,18 +62,20 @@
                     }
                     break;
                 case -1:
-                    let newAlert_mask = document.createElement('div');
-                    newAlert_mask.id = 'newAlert_mask';
-                    newAlert_mask.setAttribute("onmousedown", "javascript:if(!jQuery(this).hasClass('mouseenter')) jQuery(\'#newAlert_mask\').remove();");
-                    newAlert_mask.style = 'background-color: rgba(0, 0, 0, 0.5); z-index: 95; position: fixed; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%; padding-top: 35px; display: flex; align-items: center; justify-content: center; justify-content: center; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;';
-                    document.body.appendChild(newAlert_mask);
-                    document.getElementById('newAlert_mask').innerHTML =
-                        '<div class="BH-popup" style="max-height: 90%; max-width: 90%; height: 80%; width: 80%; overflow: hidden;" onmouseenter="javascipt:jQuery(this.parentNode).addClass(\'mouseenter\');" onmouseleave="javascipt:jQuery(this.parentNode).removeClass(\'mouseenter\');"">' +
-                        '<p class="BH-poptitle" style="height: 20%; overflow: hidden; display: flex; align-items: center; justify-content: center; line-height:80px; font-size: 50px; font-family: \'微軟正黑體\', Microsoft JhengHei, \'黑體 - 繁\', \'蘋果儷中黑\', sans-serif;">' + '您尚未登入！' + '</p>' +
-                        '<div class="BH-popintxt" style="height: 70%; overflow: auto; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; display: flex; align-items: center; justify-content: center; justify-content: center;"><div style="text-align: center; word-break: break-all; line-height: 60px; font-size: 40px; font-family: \'微軟正黑體\', Microsoft JhengHei, \'黑體-繁\', \'蘋果儷中黑\', sans-serif;">' +
-                        '簽到腳本無法進行簽到作業。<br>請登入後重新打開瀏覽器。<br>（或 <a href="https://www.gamer.com.tw/#check" target="_blank">https://www.gamer.com.tw/#check</a>）' +
-                        '</div></div><p class="BH-popbtns" style="height: 10%; display: flex; align-items: center; justify-content: center;"><button onclick="javascript:window.location.replace(\'https://user.gamer.com.tw/login.php\');" style="height: 90%; width: 20%; font-size: 30px;">OK</button></p></div>';
-                    alert("您尚未登入！");
+                    if (location.href != 'https://user.gamer.com.tw/login.php') {
+                        let newAlert_mask = document.createElement('div');
+                        newAlert_mask.id = 'newAlert_mask';
+                        newAlert_mask.setAttribute("onmousedown", "javascript:if(!jQuery(this).hasClass('mouseenter')) jQuery(\'#newAlert_mask\').remove();");
+                        newAlert_mask.style = 'background-color: rgba(0, 0, 0, 0.5); z-index: 95; position: fixed; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%; padding-top: 35px; display: flex; align-items: center; justify-content: center; justify-content: center; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;';
+                        document.body.appendChild(newAlert_mask);
+                        document.getElementById('newAlert_mask').innerHTML =
+                            '<div class="BH-popup" style="max-height: 90%; max-width: 90%; height: 80%; width: 80%; overflow: hidden;" onmouseenter="javascipt:jQuery(this.parentNode).addClass(\'mouseenter\');" onmouseleave="javascipt:jQuery(this.parentNode).removeClass(\'mouseenter\');"">' +
+                            '<p class="BH-poptitle" style="height: 20%; overflow: hidden; display: flex; align-items: center; justify-content: center; line-height:80px; font-size: 50px; font-family: \'微軟正黑體\', Microsoft JhengHei, \'黑體 - 繁\', \'蘋果儷中黑\', sans-serif;">' + '您尚未登入！' + '</p>' +
+                            '<div class="BH-popintxt" style="height: 70%; overflow: auto; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; display: flex; align-items: center; justify-content: center; justify-content: center;"><div style="text-align: center; word-break: break-all; line-height: 60px; font-size: 40px; font-family: \'微軟正黑體\', Microsoft JhengHei, \'黑體-繁\', \'蘋果儷中黑\', sans-serif;">' +
+                            '簽到腳本無法進行簽到作業。<br>請登入後重新打開瀏覽器。<br>（或 <a href="https://www.gamer.com.tw/#check" target="_blank">https://www.gamer.com.tw/#check</a>）' +
+                            '</div></div><p class="BH-popbtns" style="height: 10%; display: flex; align-items: center; justify-content: center;"><button onclick="javascript:window.location.replace(\'https://user.gamer.com.tw/login.php\');" style="height: 90%; width: 20%; font-size: 30px;">OK</button></p></div>';
+                        alert("您尚未登入！");
+                    }
                     break;
             }
         });
