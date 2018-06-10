@@ -28,12 +28,13 @@
         checkSign().then(data => {
             switch (data.signin) {
                 case 1:
-                    console.log('signed');
+                    console.log("Signed", data);
                     break;
                 case 0:
                     startSign().then(data => console.log(data));
                     break;
                 case -1:
+                    console.log("Not logged in");
                     if (location.href != 'https://user.gamer.com.tw/login.php') {
                         if (window.confirm('您尚未登入！簽到作業無法正確執行。是否立刻導向至登入網頁？')) {
                             location.href = 'https://user.gamer.com.tw/login.php';
@@ -42,30 +43,32 @@
                     break;
             }
             if (signguild && data.signin != -1) {
-                jQuery.ajax({
-                    url: "/ajax/topBar_AJAX.php?type=guild",
+                GM_xmlhttpRequest({
                     method: "get",
-                    cache: false
-                }).then(function (data) {
-                    if (data != '') {
-                        let guild_list = data.replace(/\n/g, '').split('</div><div>').map(value => value.split('sn=')[1].split('"')[0]);
-                        console.log(guild_list, "length: " + guild_list.length);
-                        guild_list.length > 0 ? (function sign(sort) {
-                            sort = sort ? sort : 0;
-                            GM_xmlhttpRequest({
-                                method: 'POST',
-                                url: 'https://guild.gamer.com.tw/ajax/guildSign.php',
-                                cache: false,
-                                data: 'sn=' + guild_list[sort],
-                                headers: {
-                                    "Content-Type": "application/x-www-form-urlencoded",
-                                },
-                                onload: data => {
-                                    console.log("signed: ", guild_list[sort]);
-                                    sort < guild_list.length - 1 ? sign(sort + 1) : (console.log('Guild sign success!'), localStorage.getItem('LastAutoSignTime', (new Date()).getTime()));
-                                }
-                            })();
-                        }) : console.log('No guild.');
+                    url: "/ajax/topBar_AJAX.php?type=guild",
+                    cache: false,
+                    onload: data => {
+                        data = data.response;
+                        if (data != '') {
+                            let guild_list = data.replace(/\n/g, '').split('</div><div>').map(value => value.split('sn=')[1].split('"')[0]);
+                            console.log(guild_list, "length: " + guild_list.length);
+                            guild_list.length > 0 ? (function sign(sort) {
+                                sort = sort ? sort : 0;
+                                GM_xmlhttpRequest({
+                                    method: 'POST',
+                                    url: 'https://guild.gamer.com.tw/ajax/guildSign.php',
+                                    cache: false,
+                                    data: 'sn=' + guild_list[sort],
+                                    headers: {
+                                        "Content-Type": "application/x-www-form-urlencoded",
+                                    },
+                                    onload: data => {
+                                        console.log("signed: ", guild_list[sort]);
+                                        sort < guild_list.length - 1 ? sign(sort + 1) : (console.log('Guild sign success!'), localStorage.getItem('LastAutoSignTime', (new Date()).getTime()));
+                                    }
+                                })();
+                            }) : console.log('No guild.');
+                        }
                     }
                 });
             }
