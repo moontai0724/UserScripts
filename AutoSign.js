@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.1
+// @version      3.2
 // @description  巴哈姆特自動簽到（含公會） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -32,34 +32,6 @@
                     break;
                 case 0:
                     startSign().then(data => console.log(data));
-                    if (signguild) {
-                        jQuery.ajax({
-                            url: "/ajax/topBar_AJAX.php?type=guild",
-                            method: "get",
-                            cache: false
-                        }).then(function (data) {
-                            if (data != '') {
-                                let guild_list = data.replace(/\n/g, '').split('</div><div>').map(value => value.split('sn=')[1].split('"')[0]);
-                                console.log(guild_list, "length: " + guild_list.length);
-                                guild_list.length > 0 ? (function sign(sort) {
-                                    sort = sort ? sort : 0;
-                                    GM_xmlhttpRequest({
-                                        method: 'POST',
-                                        url: 'https://guild.gamer.com.tw/ajax/guildSign.php',
-                                        cache: false,
-                                        data: 'sn=' + guild_list[sort],
-                                        headers: {
-                                            "Content-Type": "application/x-www-form-urlencoded",
-                                        },
-                                        onload: data => {
-                                            console.log("signed: ", guild_list[sort]);
-                                            sort < guild_list.length - 1 ? sign(sort + 1) : (console.log('Guild sign success!'), localStorage.getItem('LastAutoSignTime', (new Date()).getTime()));
-                                        }
-                                    })();
-                                }) : console.log('No guild.');
-                            }
-                        });
-                    }
                     break;
                 case -1:
                     if (location.href != 'https://user.gamer.com.tw/login.php') {
@@ -68,6 +40,34 @@
                         }
                     }
                     break;
+            }
+            if (signguild && data.signin != -1) {
+                jQuery.ajax({
+                    url: "/ajax/topBar_AJAX.php?type=guild",
+                    method: "get",
+                    cache: false
+                }).then(function (data) {
+                    if (data != '') {
+                        let guild_list = data.replace(/\n/g, '').split('</div><div>').map(value => value.split('sn=')[1].split('"')[0]);
+                        console.log(guild_list, "length: " + guild_list.length);
+                        guild_list.length > 0 ? (function sign(sort) {
+                            sort = sort ? sort : 0;
+                            GM_xmlhttpRequest({
+                                method: 'POST',
+                                url: 'https://guild.gamer.com.tw/ajax/guildSign.php',
+                                cache: false,
+                                data: 'sn=' + guild_list[sort],
+                                headers: {
+                                    "Content-Type": "application/x-www-form-urlencoded",
+                                },
+                                onload: data => {
+                                    console.log("signed: ", guild_list[sort]);
+                                    sort < guild_list.length - 1 ? sign(sort + 1) : (console.log('Guild sign success!'), localStorage.getItem('LastAutoSignTime', (new Date()).getTime()));
+                                }
+                            })();
+                        }) : console.log('No guild.');
+                    }
+                });
             }
         });
     }
