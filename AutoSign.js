@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.3
+// @version      3.3.1
 // @description  巴哈姆特自動簽到（含公會） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -30,9 +30,11 @@
             switch (data.signin) {
                 case 1:
                     console.log("Signed", data);
+                    if (!signguild) localStorage.setItem('LastAutoSignTime', (new Date()).getTime());
                     break;
                 case 0:
                     startSign().then(data => console.log(data));
+                    if (!signguild) localStorage.setItem('LastAutoSignTime', (new Date()).getTime());
                     break;
                 case -1:
                     console.log("Not logged in");
