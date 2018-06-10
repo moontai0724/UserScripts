@@ -7,6 +7,7 @@
 // @match        https://*.gamer.com.tw/*
 // @grant        GM_xmlhttpRequest
 // @connect      www.gamer.com.tw
+// @connect      guild.gamer.com.tw
 // @supportURL   https://home.gamer.com.tw/creationDetail.php?sn=3852242
 // ==/UserScript==
 
