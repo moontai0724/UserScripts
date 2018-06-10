@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.2.3
+// @version      3.3
 // @description  巴哈姆特自動簽到（含公會） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -24,7 +24,7 @@
 
     var LastAutoSignTime = localStorage.getItem('LastAutoSignTime') ? Number(localStorage.getItem('LastAutoSignTime')) : 0;
     var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDay()).getTime();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
     if (!(today < LastAutoSignTime && LastAutoSignTime < today + 86400000)) {
         checkSign().then(data => {
             switch (data.signin) {
