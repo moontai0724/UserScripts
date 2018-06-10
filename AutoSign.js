@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.2.2
+// @version      3.2.3
 // @description  巴哈姆特自動簽到（含公會） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -65,10 +65,10 @@
                                     },
                                     onload: data => {
                                         console.log("signed: ", guild_list[sort]);
-                                        sort < guild_list.length - 1 ? sign(sort + 1) : (console.log('Guild sign success!'), localStorage.getItem('LastAutoSignTime', (new Date()).getTime()));
+                                        sort < guild_list.length - 1 ? sign(sort + 1) : (console.log('Guild sign success!'), localStorage.setItem('LastAutoSignTime', (new Date()).getTime()));
                                     }
-                                })();
-                            }) : console.log('No guild.');
+                                });
+                            })() : console.log('No guild.');
                         }
                     }
                 });
