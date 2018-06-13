@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         動漫電玩通題庫系統
+// @name         巴哈動漫電玩通題庫與解答系統
 // @namespace    https://home.gamer.com.tw/moontai0724
 // @version      3.0
-// @description  動漫電玩通題庫系統，歡迎提供題目。
+// @description  巴哈動漫電玩通題庫與解答系統，蒐集題庫中～
 // @author       moontai0724
 // @match        https://forum.gamer.com.tw/B.php*
 // @supportURL   https://home.gamer.com.tw/creationDetail.php?sn=3924920
