@@ -20,7 +20,7 @@
     var quizSN = qabox[0].getAttribute('data-quiz-sn');
     var quizQuestion = qabox[0].innerHTML.replace(/\n/g, '').split('<ul>')[0];
     var quizOption = [];
-    var bsn = location.search.split('&')[0].split('=')[1];
+    var bsn = location.search.split('&').find(value => value.indexOf('bsn') > -1).split('=')[1];
     var AlreadyAnswered = false;
     var BAHAID = document.cookie.split(';').map(value => value.startsWith(' ') ? value.replace(' ', '').split('=', 2) : value.split('=', 2)).find(value => value[0] == 'BAHAID') == undefined ? undefined : document.cookie.split(';').map(value => value.startsWith(' ') ? value.replace(' ', '').split('=', 2) : value.split('=', 2)).find(value => value[0] == 'BAHAID')[1];
 
