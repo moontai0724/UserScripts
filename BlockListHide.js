@@ -46,7 +46,7 @@
         })), console.log('New Setting'));
     var setting = JSON.parse(localStorage.getItem("BLH_Setting"));
     // 新舊轉換
-    if (!setting.data.blockKeywordsFC) {
+    if (!setting.data.blockKeywordsFC || !setting.keywordPostFilter) {
         setting = {
             switch: {
                 keywordPostFilter: setting.switch.keywordPostFilter,
