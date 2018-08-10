@@ -46,7 +46,7 @@
         })), console.log('New Setting'));
     var setting = JSON.parse(localStorage.getItem("BLH_Setting"));
     // 新舊轉換
-    if (!setting.data.blockKeywordsFC || !setting.keywordPostFilter) {
+    if (setting.data.blockKeywordsFC == undefined || setting.keywordPostFilter == undefined) {
         setting = {
             switch: {
                 keywordPostFilter: setting.switch.keywordPostFliter,
@@ -63,9 +63,9 @@
             data: {
                 forceShowList: setting.data.forceShowList,
                 forceHideList: setting.data.forceHideList,
-                blockKeywordsPC: setting.data.blockKeywords,
-                postBlockKeywordsPC: setting.data.postBlockKeywords,
-                commentBlockKeywordsPC: setting.data.commentBlockKeywords,
+                blockKeywordsPC: setting.data.blockKeywords ? setting.data.blockKeywords : setting.data.blockKeywordsPC,
+                postBlockKeywordsPC: setting.data.postBlockKeywords ? setting.data.postBlockKeywords : setting.data.postBlockKeywordsPC,
+                commentBlockKeywordsPC: setting.data.commentBlockKeywords ? setting.data.commentBlockKeywords : setting.data.commentBlockKeywordsPC,
                 blockKeywordsFC: [],
                 postBlockKeywordsFC: [],
                 commentBlockKeywordsFC: []
