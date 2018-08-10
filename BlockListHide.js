@@ -257,7 +257,9 @@
                     console.log('Get blacklist data from Bahamut server.');
                     localStorage.setItem('BHBlackList', JSON.stringify({ time: new Date().getTime(), BlackList: BlackList }));
                     resolve(BlackListHandle(BlackList));
-                }
+                },
+                onerror: err => console.error('Responsed Error: ', err),
+                ontimeout: err => console.error('Response timeout: ', err)
             });
         });
     }
