@@ -49,12 +49,12 @@
     if (!setting.data.blockKeywordsFC || !setting.keywordPostFilter) {
         setting = {
             switch: {
-                keywordPostFilter: setting.switch.keywordPostFilter,
-                keywordCommentFilter: setting.switch.keywordCommentFilter,
-                blacklistPostFilter: setting.switch.blacklistPostFilter,
-                blacklistCommentFilter: setting.switch.blacklistCommentFilter,
-                contentLengthPostFilter: setting.switch.contentLengthPostFilter,
-                contentLengthCommentFilter: setting.switch.contentLengthCommentFilter
+                keywordPostFilter: setting.switch.keywordPostFliter,
+                keywordCommentFilter: setting.switch.keywordCommentFliter,
+                blacklistPostFilter: setting.switch.blacklistPostFliter,
+                blacklistCommentFilter: setting.switch.blacklistCommentFliter,
+                contentLengthPostFilter: setting.switch.contentLengthPostFliter,
+                contentLengthCommentFilter: setting.switch.contentLengthCommentFliter
             },
             lengthLimit: {
                 contentLengthPostLimit: setting.lengthLimit.contentLengthPostLimit,
