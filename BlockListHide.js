@@ -13,20 +13,21 @@
 // @connect      home.gamer.com.tw
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @supportURL   https://home.gamer.com.tw/moontai0724
+// @license      MIT
 // ==/UserScript==
 
 (function () {
     'use strict';
-    console.log('Start, setting: ', localStorage.getItem("BLH_Setting"));
+    console.log('Start, varsion: ' + GM_info.script.version + ', setting: ', localStorage.getItem("BLH_Setting"));
     if (!localStorage.getItem("BLH_Setting") || JSON.parse(localStorage.getItem("BLH_Setting")) == null)
         (localStorage.setItem("BLH_Setting", JSON.stringify({
             switch: {
-                keywordPostFliter: true,
-                keywordCommentFliter: true,
-                blacklistPostFliter: true,
-                blacklistCommentFliter: true,
-                contentLengthPostFliter: false,
-                contentLengthCommentFliter: false,
+                keywordPostFilter: true,
+                keywordCommentFilter: true,
+                blacklistPostFilter: true,
+                blacklistCommentFilter: true,
+                contentLengthPostFilter: false,
+                contentLengthCommentFilter: false,
             },
             lengthLimit: {
                 contentLengthPostLimit: 2,
@@ -48,12 +49,12 @@
     if (!setting.data.blockKeywordsFC) {
         setting = {
             switch: {
-                keywordPostFliter: setting.switch.keywordPostFliter,
-                keywordCommentFliter: setting.switch.keywordCommentFliter,
-                blacklistPostFliter: setting.switch.blacklistPostFliter,
-                blacklistCommentFliter: setting.switch.blacklistCommentFliter,
-                contentLengthPostFliter: setting.switch.contentLengthPostFliter,
-                contentLengthCommentFliter: setting.switch.contentLengthCommentFliter
+                keywordPostFilter: setting.switch.keywordPostFilter,
+                keywordCommentFilter: setting.switch.keywordCommentFilter,
+                blacklistPostFilter: setting.switch.blacklistPostFilter,
+                blacklistCommentFilter: setting.switch.blacklistCommentFilter,
+                contentLengthPostFilter: setting.switch.contentLengthPostFilter,
+                contentLengthCommentFilter: setting.switch.contentLengthCommentFilter
             },
             lengthLimit: {
                 contentLengthPostLimit: setting.lengthLimit.contentLengthPostLimit,
@@ -77,13 +78,13 @@
     jQuery('head').append('<style type="text/css" id="BLH_BlockHideCSS">.BlockHide { display: none !important; }</style>');
     jQuery('.BH-menuE').append('<li><a id="BLH_ShowBlock" href="javascript:;" style="display: block;" onclick="BlockDisplay(true);">關閉過濾器</a></li>');
     jQuery('.BH-menuE').append('<li><a id="BLH_HideBlock" href="javascript:;" style="display: none;" onclick="BlockDisplay(false);">開啟過濾器</a></li>');
-    jQuery('.BH-menuE').append('<li><a id="BLH_FliterSetting" href="javascript:;" style="display: block;">過濾器設定</a></li>');
+    jQuery('.BH-menuE').append('<li><a id="BLH_FilterSetting" href="javascript:;" style="display: block;">過濾器設定</a></li>');
     jQuery('body').append('<script type="text/javascript">' + function BlockDisplay(status) {
         document.getElementById('BLH_HideBlock').style.display = status ? 'block' : 'none';
         document.getElementById('BLH_ShowBlock').style.display = status ? 'none' : 'block';
         document.getElementById('BLH_BlockHideCSS').innerHTML = document.getElementById('BLH_BlockHideCSS').innerHTML.replace(status ? 'BlockHide' : 'noBlockHide', status ? 'noBlockHide' : 'BlockHide');
     } + '</script>');
-    document.getElementById('BLH_FliterSetting').onclick = () => openSettingWindow();
+    document.getElementById('BLH_FilterSetting').onclick = () => openSettingWindow();
 
     // 將 blockKeywords 加入 postBlockKeywords 和 commentBlockKeywords 中
     for (let i = 0; i < setting.data.blockKeywordsPC.length; i++) setting.data.postBlockKeywordsPC[setting.data.postBlockKeywordsPC.length] = setting.data.commentBlockKeywordsPC[setting.data.commentBlockKeywordsPC.length] = setting.data.blockKeywordsPC[i];
@@ -92,18 +93,18 @@
     //BC頁分開
     switch (location.pathname) {
         case '/B.php':
-            console.group('Fliter log message');
+            console.group('Filter log message');
             setTimeout(() => console.groupEnd(), 200);
 
-            // blacklist post fliter
-            if (setting.switch.blacklistPostFliter) startFliter('blacklist', 'post', '.b-list__count__user>a', '.b-list__row');
-            // keywords post title fliter
-            if (setting.switch.keywordPostFliter) (startFliter('postBlockKeywordsPC', 'post', '.b-list__main__title', '.b-list__row'), startFliter('postBlockKeywordsFC', 'post', '.b-list__main__title', '.b-list__row'));
-            // popular recommend title fliter
-            if (setting.switch.keywordPostFliter) (startFliter('postBlockKeywordsPC', 'post', '.popular .name', '.popular__item'), startFliter('postBlockKeywordsFC', 'post', '.popular .name', '.popular__item'));
+            // blacklist post filter
+            if (setting.switch.blacklistPostFilter) startFilter('blacklist', 'post', '.b-list__count__user>a', '.b-list__row');
+            // keywords post title filter
+            if (setting.switch.keywordPostFilter) (startFilter('postBlockKeywordsPC', 'post', '.b-list__main__title', '.b-list__row'), startFilter('postBlockKeywordsFC', 'post', '.b-list__main__title', '.b-list__row'));
+            // popular recommend title filter
+            if (setting.switch.keywordPostFilter) (startFilter('postBlockKeywordsPC', 'post', '.popular .name', '.popular__item'), startFilter('postBlockKeywordsFC', 'post', '.popular .name', '.popular__item'));
             break;
         case '/C.php': case '/Co.php':
-            console.group('Fliter log message');
+            console.group('Filter log message');
             setTimeout(() => console.groupEnd(), 200);
             // 擷取展開按鈕事件：當展開留言按鈕被點擊，執行原生展開留言指令並處理內容
             jQuery('body').append('<button id="extendCommentListener" style="display: none;"></button>');
@@ -111,11 +112,11 @@
             // 當按鈕點擊就執行
             document.getElementById('extendCommentListener').onclick = function () {
                 let [bsn, postid] = [document.getElementById('extendCommentListener').dataset.bsn, document.getElementById('extendCommentListener').dataset.postid], times = 0, ms = 0;
-                setTimeout(function restartFliter(ms) {
+                setTimeout(function restartFilter(ms) {
                     setTimeout(function () {
                         if (!document.getElementById('extendCommentAreaListener')) {
                             jQuery('#Commendlist_' + postid).each((index, element) => {
-                                if (setting.switch.blacklistCommentFliter) {
+                                if (setting.switch.blacklistCommentFilter) {
                                     getBlackList().then(BlackList => jQuery(element).find('.reply-content__user').each((index, value) => {
                                         if (BlackList.includes(value.href.replace('https://home.gamer.com.tw/', '').toLowerCase())) {
                                             jQuery(value).parents('.c-reply__item').addClass('BlockHide');
@@ -123,7 +124,7 @@
                                         }
                                     }));
                                 }
-                                if (setting.switch.keywordCommentFliter) {
+                                if (setting.switch.keywordCommentFilter) {
                                     jQuery(element).find('.reply-content__article').each((index, value) => {
                                         setting.data.commentBlockKeywordsPC.forEach(data => {
                                             if (value.innerText.toLowerCase().includes(data)) {
@@ -139,7 +140,7 @@
                                         });
                                     });
                                 }
-                                if (setting.switch.contentLengthCommentFliter) {
+                                if (setting.switch.contentLengthCommentFilter) {
                                     jQuery(element).find('.reply-content__article').each((index, value) => {
                                         let data = value.innerText.replace(/\s/g, '').length;
                                         if (data < setting.lengthLimit.contentLengthCommentLimit) {
@@ -149,75 +150,79 @@
                                     });
                                 }
                             });
-                        } else if (times++ < 50) restartFliter(100);
+                        } else if (times++ < 50) restartFilter(100);
                     }, ms);
                 });
             };
 
-            // blacklist post fliter
-            if (setting.switch.blacklistPostFliter) startFliter('blacklist', 'post', '.c-post__header__author>.userid', '.c-section');
-            // blacklist comment fliter
-            if (setting.switch.blacklistCommentFliter) startFliter('blacklist', 'comment', '.reply-content__user', '.c-reply__item');
-            // keywords post fliter
-            if (setting.switch.keywordPostFliter) (startFliter('postBlockKeywordsPC', 'post', '.c-article__content', '.c-section'), startFliter('postBlockKeywordsFC', 'post', '.c-article__content', '.c-section'));
-            // keywords comment fliter
-            if (setting.switch.keywordCommentFliter) (startFliter('commentBlockKeywordsPC', 'post', '.reply-content__article', '.c-reply__item'), startFliter('commentBlockKeywordsFC', 'post', '.reply-content__article', '.c-reply__item'));
-            // post content length fliter
-            if (setting.switch.contentLengthPostFliter) startFliter('contentLengthPostLimit', 'post', '.c-article__content', '.c-section');
-            // comment content length fliter
-            if (setting.switch.contentLengthCommentFliter) startFliter('contentLengthCommentLimit', 'comment', '.reply-content__article', '.c-reply__item');
-            // popular recommend title fliter
-            if (setting.switch.keywordPostFliter) (startFliter('postBlockKeywordsPC', 'post', '.popular .name', '.popular__item'), startFliter('postBlockKeywordsFC', 'post', '.popular .name', '.popular__item'));
+            // blacklist post filter
+            if (setting.switch.blacklistPostFilter) startFilter('blacklist', 'post', '.c-post__header__author>.userid', '.c-section');
+            // blacklist comment filter
+            if (setting.switch.blacklistCommentFilter) startFilter('blacklist', 'comment', '.reply-content__user', '.c-reply__item');
+            // keywords post filter
+            if (setting.switch.keywordPostFilter) (startFilter('postBlockKeywordsPC', 'post', '.c-article__content', '.c-section'), startFilter('postBlockKeywordsFC', 'post', '.c-article__content', '.c-section'));
+            // keywords comment filter
+            if (setting.switch.keywordCommentFilter) (startFilter('commentBlockKeywordsPC', 'post', '.reply-content__article', '.c-reply__item'), startFilter('commentBlockKeywordsFC', 'post', '.reply-content__article', '.c-reply__item'));
+            // post content length filter
+            if (setting.switch.contentLengthPostFilter) startFilter('contentLengthPostLimit', 'post', '.c-article__content', '.c-section');
+            // comment content length filter
+            if (setting.switch.contentLengthCommentFilter) startFilter('contentLengthCommentLimit', 'comment', '.reply-content__article', '.c-reply__item');
+            // popular recommend title filter
+            if (setting.switch.keywordPostFilter) (startFilter('postBlockKeywordsPC', 'post', '.popular .name', '.popular__item'), startFilter('postBlockKeywordsFC', 'post', '.popular .name', '.popular__item'));
             break;
         case '/Bo.php':
-            console.group('Fliter log message');
+            console.group('Filter log message');
             setTimeout(() => console.groupEnd(), 200);
-            // blacklist post fliter
-            if (setting.switch.blacklistPostFliter) startFliter('blacklist', 'post', '.FM-blist6>a[href*="home.gamer.com.tw"]', 'tr');
-            // keywords post title fliter
-            if (setting.switch.keywordPostFliter) (startFliter('postBlockKeywordsPC', 'post', '.FM-blist3', 'tr'), startFliter('postBlockKeywordsFC', 'post', '.FM-blist3', 'tr'));
+            // blacklist post filter
+            if (setting.switch.blacklistPostFilter) startFilter('blacklist', 'post', '.FM-blist6>a[href*="home.gamer.com.tw"]', 'tr');
+            // keywords post title filter
+            if (setting.switch.keywordPostFilter) (startFilter('postBlockKeywordsPC', 'post', '.FM-blist3', 'tr'), startFilter('postBlockKeywordsFC', 'post', '.FM-blist3', 'tr'));
             break;
         case '/search.php':
-            setTimeout(function restartFliter(ms) {
+            setTimeout(function restartFilter(ms) {
                 setTimeout(() => {
                     if (jQuery('.gsc-table-cell-snippet-close').length > 0) {
-                        console.group('Fliter log message');
+                        console.group('Filter log message');
                         setTimeout(() => console.groupEnd(), 100);
-                        if (setting.switch.keywordPostFliter) (startFliter('postBlockKeywordsPC', 'post', '.gsc-table-cell-snippet-close', '.gsc-result'), startFliter('postBlockKeywordsFC', 'post', '.gsc-table-cell-snippet-close', '.gsc-result'));
-                    } else restartFliter(100);
+                        if (setting.switch.keywordPostFilter) (startFilter('postBlockKeywordsPC', 'post', '.gsc-table-cell-snippet-close', '.gsc-result'), startFilter('postBlockKeywordsFC', 'post', '.gsc-table-cell-snippet-close', '.gsc-result'));
+                    } else restartFilter(100);
                 }, ms);
             });
             break;
     }
 
-    function startFliter(fliterType, elementType, target, hideClass) {
-        if (fliterType.includes('Keyword') && fliterType.includes('PC')) {
-            jQuery(target).each((index, element) => setting.data[fliterType].forEach(value => {
+    function startFilter(filterType, elementType, target, hideClass) {
+        if (filterType.includes('Keyword') && filterType.includes('PC')) {
+            console.log('Keyword part compare filter start.');
+            jQuery(target).each((index, element) => setting.data[filterType].forEach(value => {
                 if (element.innerText.toLowerCase().includes(value)) {
                     jQuery(element).parents(hideClass).addClass('BlockHide');
                     console.log('Hid a ' + elementType + ' includes keyword: ' + value, jQuery(element).parents(hideClass));
                 }
             }));
-        } else if (fliterType.includes('Keyword') && fliterType.includes('FC')) {
-            jQuery(target).each((index, element) => setting.data[fliterType].forEach(value => {
+        } else if (filterType.includes('Keyword') && filterType.includes('FC')) {
+            console.log('Keyword full compare filter start.');
+            jQuery(target).each((index, element) => setting.data[filterType].forEach(value => {
                 if (element.innerText.toLowerCase() == value) {
                     jQuery(element).parents(hideClass).addClass('BlockHide');
                     console.log('Hid a ' + elementType + ' includes keyword: ' + value, jQuery(element).parents(hideClass));
                 }
             }));
-        } else if (fliterType.includes('blacklist')) {
+        } else if (filterType.includes('blacklist')) {
+            console.log('Blacklist filter start.');
             getBlackList().then(BlackList => jQuery(target).each((index, element) => {
                 if (BlackList.includes(element.href.replace('https://home.gamer.com.tw/', '').toLowerCase())) {
                     jQuery(element).parents(hideClass).addClass('BlockHide');
                     console.log('Hid a ' + elementType + ' with block user: ' + element.href.replace('https://home.gamer.com.tw/', '').toLowerCase(), jQuery(element).parents(hideClass));
                 }
             }));
-        } else if (fliterType.includes('Length')) {
+        } else if (filterType.includes('Length')) {
+            console.log('content length filter start.');
             jQuery(target).each((index, element) => {
                 let value = element.innerText.replace(/\s/g, '').length;
-                if (value < setting.lengthLimit[fliterType]) {
+                if (value < setting.lengthLimit[filterType]) {
                     jQuery(element).parents(hideClass).addClass('BlockHide');
-                    console.log('Hid a ' + elementType + ' less then setting text totalLength limit: ' + setting.lengthLimit[fliterType], value, jQuery(element).parents(hideClass));
+                    console.log('Hid a ' + elementType + ' less then setting text totalLength limit: ' + setting.lengthLimit[filterType], value, jQuery(element).parents(hideClass));
                 }
             });
         }
@@ -234,6 +239,7 @@
 
     function getBlackList(forceReload) {
         return new Promise(resolve => {
+            console.log('Received get blacklist request!');
             if (localStorage.getItem('BHBlackList') && !forceReload) {
                 let BHBlackList = JSON.parse(localStorage.getItem('BHBlackList')), today = new Date((new Date()).getFullYear(), (new Date()).getMonth(), (new Date()).getDate(), 0, 0, 0, 0);
                 if (today.getTime() < BHBlackList.time && BHBlackList.time < today.getTime() + 86400000) {
@@ -317,39 +323,39 @@
                 黑名單過濾
                 <div style="display: flex; align-items: center; border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px;">
                     黑名單文章過濾：
-                    <span id="blacklistPostFliter"></span>
-                    <button style="margin: 5px;" onclick="BLH_switch('blacklistPostFliter');">切換</button>
+                    <span id="blacklistPostFilter"></span>
+                    <button style="margin: 5px;" onclick="BLH_switch('blacklistPostFilter');">切換</button>
                 </div>
                 <div style="display: flex; align-items: center; border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px;">
                     黑名單留言過濾：
-                    <span id="blacklistCommentFliter"></span>
-                    <button style="margin: 5px;" onclick="BLH_switch('blacklistCommentFliter');">切換</button>
+                    <span id="blacklistCommentFilter"></span>
+                    <button style="margin: 5px;" onclick="BLH_switch('blacklistCommentFilter');">切換</button>
                 </div>
             </div>
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; background: beige;">
                 關鍵詞過濾
                 <div style="display: flex; align-items: center; border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px;">
                     關鍵詞文章過濾：
-                    <span id="keywordPostFliter"></span>
-                    <button style="margin: 5px;" onclick="BLH_switch('keywordPostFliter');">切換</button>
+                    <span id="keywordPostFilter"></span>
+                    <button style="margin: 5px;" onclick="BLH_switch('keywordPostFilter');">切換</button>
                 </div>
                 <div style="display: flex; align-items: center; border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px;">
                     關鍵詞留言過濾：
-                    <span id="keywordCommentFliter"></span>
-                    <button style="margin: 5px;" onclick="BLH_switch('keywordCommentFliter');">切換</button>
+                    <span id="keywordCommentFilter"></span>
+                    <button style="margin: 5px;" onclick="BLH_switch('keywordCommentFilter');">切換</button>
                 </div>
             </div>
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; background: beige;">
                 字數過濾
                 <div style="display: flex; align-items: center; border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px;">
                     文章字數過濾：
-                    <span id="contentLengthPostFliter"></span>
-                    <button style="margin: 5px;" onclick="BLH_switch('contentLengthPostFliter');">切換</button>
+                    <span id="contentLengthPostFilter"></span>
+                    <button style="margin: 5px;" onclick="BLH_switch('contentLengthPostFilter');">切換</button>
                 </div>
                 <div style="display: flex; align-items: center; border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px;">
                     留言字數過濾：
-                    <span id="contentLengthCommentFliter"></span>
-                    <button style="margin: 5px;" onclick="BLH_switch('contentLengthCommentFliter');">切換</button>
+                    <span id="contentLengthCommentFilter"></span>
+                    <button style="margin: 5px;" onclick="BLH_switch('contentLengthCommentFilter');">切換</button>
                 </div>
             </div>
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; background: beige;">
@@ -376,8 +382,8 @@
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; width: 90%; background: beige;">
                 <div style="display: flex; align-items: center; justify-content: center; flex-flow: row wrap;">
                     全域過濾關鍵詞（文章與留言皆會過濾）
-                    <button style="margin: 5px;" onclick="BLH_addFliter('blockKeywordsPC');">新增</button>
-                    <button style="margin: 5px;" onclick="BLH_removeFliter('blockKeywordsPC');">移除選取</button>
+                    <button style="margin: 5px;" onclick="BLH_addFilter('blockKeywordsPC');">新增</button>
+                    <button style="margin: 5px;" onclick="BLH_removeFilter('blockKeywordsPC');">移除選取</button>
                 </div>
                 <div id="blockKeywordsPC" style="display: flex; flex-flow: row wrap; width: 90%; padding: 10px;">
                 </div>
@@ -385,8 +391,8 @@
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; width: 45%; background: beige;">
                 <div style="display: flex; align-items: center; justify-content: center; flex-flow: row wrap;">
                     文章過濾關鍵詞
-                    <button style="margin: 5px;" onclick="BLH_addFliter('postBlockKeywordsPC');">新增</button>
-                    <button style="margin: 5px;" onclick="BLH_removeFliter('postBlockKeywordsPC');">移除選取</button>
+                    <button style="margin: 5px;" onclick="BLH_addFilter('postBlockKeywordsPC');">新增</button>
+                    <button style="margin: 5px;" onclick="BLH_removeFilter('postBlockKeywordsPC');">移除選取</button>
                 </div>
                 <div id="postBlockKeywordsPC" style="display: flex; flex-flow: row wrap; width: 90%; padding: 10px;">
                 </div>
@@ -394,8 +400,8 @@
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; width: 45%; background: beige;">
                 <div style="display: flex; align-items: center; justify-content: center; flex-flow: row wrap;">
                     留言過濾關鍵詞
-                    <button style="margin: 5px;" onclick="BLH_addFliter('commentBlockKeywordsPC');">新增</button>
-                    <button style="margin: 5px;" onclick="BLH_removeFliter('commentBlockKeywordsPC');">移除選取</button>
+                    <button style="margin: 5px;" onclick="BLH_addFilter('commentBlockKeywordsPC');">新增</button>
+                    <button style="margin: 5px;" onclick="BLH_removeFilter('commentBlockKeywordsPC');">移除選取</button>
                 </div>
                 <div id="commentBlockKeywordsPC" style="display: flex; flex-flow: row wrap; width: 90%; padding: 10px;">
                 </div>
@@ -411,8 +417,8 @@
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; width: 90%; background: beige;">
                 <div style="display: flex; align-items: center; justify-content: center; flex-flow: row wrap;">
                     全域過濾關鍵詞（文章與留言皆會過濾）
-                    <button style="margin: 5px;" onclick="BLH_addFliter('blockKeywordsFC');">新增</button>
-                    <button style="margin: 5px;" onclick="BLH_removeFliter('blockKeywordsFC');">移除選取</button>
+                    <button style="margin: 5px;" onclick="BLH_addFilter('blockKeywordsFC');">新增</button>
+                    <button style="margin: 5px;" onclick="BLH_removeFilter('blockKeywordsFC');">移除選取</button>
                 </div>
                 <div id="blockKeywordsFC" style="display: flex; flex-flow: row wrap; width: 90%; padding: 10px;">
                 </div>
@@ -420,8 +426,8 @@
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; width: 45%; background: beige;">
                 <div style="display: flex; align-items: center; justify-content: center; flex-flow: row wrap;">
                     文章過濾關鍵詞
-                    <button style="margin: 5px;" onclick="BLH_addFliter('postBlockKeywordsFC');">新增</button>
-                    <button style="margin: 5px;" onclick="BLH_removeFliter('postBlockKeywordsFC');">移除選取</button>
+                    <button style="margin: 5px;" onclick="BLH_addFilter('postBlockKeywordsFC');">新增</button>
+                    <button style="margin: 5px;" onclick="BLH_removeFilter('postBlockKeywordsFC');">移除選取</button>
                 </div>
                 <div id="postBlockKeywordsFC" style="display: flex; flex-flow: row wrap; width: 90%; padding: 10px;">
                 </div>
@@ -429,8 +435,8 @@
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; width: 45%; background: beige;">
                 <div style="display: flex; align-items: center; justify-content: center; flex-flow: row wrap;">
                     留言過濾關鍵詞
-                    <button style="margin: 5px;" onclick="BLH_addFliter('commentBlockKeywordsFC');">新增</button>
-                    <button style="margin: 5px;" onclick="BLH_removeFliter('commentBlockKeywordsFC');">移除選取</button>
+                    <button style="margin: 5px;" onclick="BLH_addFilter('commentBlockKeywordsFC');">新增</button>
+                    <button style="margin: 5px;" onclick="BLH_removeFilter('commentBlockKeywordsFC');">移除選取</button>
                 </div>
                 <div id="commentBlockKeywordsFC" style="display: flex; flex-flow: row wrap; width: 90%; padding: 10px;">
                 </div>
@@ -447,8 +453,8 @@
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; width: 45%; background: beige;">
                 <div style="display: flex; align-items: center; justify-content: center; flex-flow: row wrap;">
                     顯示名單
-                    <button style="margin: 5px;" onclick="BLH_addFliter('forceShowList');">新增</button>
-                    <button style="margin: 5px;" onclick="BLH_removeFliter('forceShowList');">移除選取</button>
+                    <button style="margin: 5px;" onclick="BLH_addFilter('forceShowList');">新增</button>
+                    <button style="margin: 5px;" onclick="BLH_removeFilter('forceShowList');">移除選取</button>
                 </div>
                 <div id="forceShowList" style="display: flex; flex-flow: row wrap; width: 90%; padding: 10px;">
                 </div>
@@ -456,8 +462,8 @@
             <div style="border: 1px solid; padding: 5px; margin: 10px; border-radius: 10px; width: 45%; background: beige;">
                 <div style="display: flex; align-items: center; justify-content: center; flex-flow: row wrap;">
                     隱藏名單
-                    <button style="margin: 5px;" onclick="BLH_addFliter('forceHideList');">新增</button>
-                    <button style="margin: 5px;" onclick="BLH_removeFliter('forceHideList');">移除選取</button>
+                    <button style="margin: 5px;" onclick="BLH_addFilter('forceHideList');">新增</button>
+                    <button style="margin: 5px;" onclick="BLH_removeFilter('forceHideList');">移除選取</button>
                 </div>
                 <div id="forceHideList" style="display: flex; flex-flow: row wrap; width: 90%; padding: 10px;">
                 </div>
@@ -520,7 +526,7 @@
             document.getElementById(key).innerHTML = lengthLimit;
             console.log('Set ' + key + ' to ' + lengthLimit);
         }
-    } + function BLH_addFliter(key) {
+    } + function BLH_addFilter(key) {
         let setting = JSON.parse(localStorage.getItem("BLH_Setting"));
         let response = window.prompt('請輸入欲過濾' + (key.includes('force') ? '使用者ＩＤ（不分大小寫，非英數字會被過濾）' : '詞（不分大小寫，空白會被過濾。）'));
         console.log('Input: ' + response);
@@ -606,7 +612,7 @@
             jQuery('#' + key).append(`<div style="margin: 10px;" data-value="` + encodeURIComponent(response) + `"><input type="checkbox"><span onclick="jQuery(this).parent().find('input').prop('checked', !jQuery(this).parent().find('input').prop('checked'));">` + response + `</span></div>`);
             console.log('Added ' + response + ' to ' + key + '.');
         } else window.alert('輸入的內容錯誤。');
-    } + function BLH_removeFliter(key) {
+    } + function BLH_removeFilter(key) {
         let setting = JSON.parse(localStorage.getItem("BLH_Setting"));
         let removeList = [];
         jQuery('#' + key + ' input:checked').each((index, element) => {
