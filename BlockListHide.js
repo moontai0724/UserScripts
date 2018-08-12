@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈黑名單、關鍵詞、字數過少隱藏顯示
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      2.4.4
+// @version      2.4.5
 // @description  在巴哈姆將黑名單、關鍵詞、字數過少過濾文章留言，在頂端列可以開關過濾器（一次性）
 // @author       moontai0724
 // @match        https://forum.gamer.com.tw/B.php*
@@ -49,12 +49,12 @@
     if (setting.data.blockKeywordsFC == undefined || setting.keywordPostFilter == undefined) {
         setting = {
             switch: {
-                keywordPostFilter: setting.switch.keywordPostFliter,
-                keywordCommentFilter: setting.switch.keywordCommentFliter,
-                blacklistPostFilter: setting.switch.blacklistPostFliter,
-                blacklistCommentFilter: setting.switch.blacklistCommentFliter,
-                contentLengthPostFilter: setting.switch.contentLengthPostFliter,
-                contentLengthCommentFilter: setting.switch.contentLengthCommentFliter
+                keywordPostFilter: setting.switch.keywordPostFliter ? setting.switch.keywordPostFliter : setting.switch.keywordPostFilter,
+                keywordCommentFilter: setting.switch.keywordCommentFliter ? setting.switch.keywordCommentFliter : setting.switch.keywordCommentFilter,
+                blacklistPostFilter: setting.switch.blacklistPostFliter ? setting.switch.blacklistPostFliter : setting.switch.blacklistPostFilter,
+                blacklistCommentFilter: setting.switch.blacklistCommentFliter ? setting.switch.blacklistCommentFliter : setting.switch.blacklistCommentFilter,
+                contentLengthPostFilter: setting.switch.contentLengthPostFliter ? setting.switch.contentLengthPostFliter : setting.switch.contentLengthPostFilter,
+                contentLengthCommentFilter: setting.switch.contentLengthCommentFliter ? setting.switch.contentLengthCommentFliter : setting.switch.contentLengthCommentFilter
             },
             lengthLimit: {
                 contentLengthPostLimit: setting.lengthLimit.contentLengthPostLimit,
