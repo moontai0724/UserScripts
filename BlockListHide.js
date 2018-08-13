@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈黑名單、關鍵詞、字數過少隱藏顯示
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      2.4.5
+// @version      2.4.4
 // @description  在巴哈姆將黑名單、關鍵詞、字數過少過濾文章留言，在頂端列可以開關過濾器（一次性）
 // @author       moontai0724
 // @match        https://forum.gamer.com.tw/B.php*
@@ -249,18 +249,22 @@
                     console.log('Today not requested blacklist yet, start request.');
                     getBlackList(true).then(data => resolve(BlackListHandle(data)));
                 }
-            } else GM_xmlhttpRequest({
-                method: "GET",
-                url: "https://home.gamer.com.tw/ajax/friend_getData.php?here=0",
-                onload: data => {
-                    let BlackList = data.response.includes('<div id="BMW_nlist" style="display:none;">') ? data.response.split('<div id="BMW_nlist" style="display:none;">')[1].replace('</div>', '').split(',') : [];
-                    console.log('Get blacklist data from Bahamut server.');
-                    localStorage.setItem('BHBlackList', JSON.stringify({ time: new Date().getTime(), BlackList: BlackList }));
-                    resolve(BlackListHandle(BlackList));
-                },
-                onerror: err => console.error('Responsed Error: ', err),
-                ontimeout: err => console.error('Response timeout: ', err)
-            });
+            } else {
+                console.log('Start get blacklist from Bahamut server.');
+                GM_xmlhttpRequest({
+                    method: "GET",
+                    url: "https://home.gamer.com.tw/ajax/friend_getData.php?here=0",
+                    onload: data => {
+                        console.log(data);
+                        let BlackList = data.response.match(/data\-gamercard\-userid\=\"[\s\S]*?\"/g).map(value => value.replace(/data\-gamercard\-userid\=\"|\"/g, '').toLowerCase());
+                        console.log('Get blacklist data from Bahamut server.');
+                        localStorage.setItem('BHBlackList', JSON.stringify({ time: new Date().getTime(), BlackList: BlackList }));
+                        resolve(BlackListHandle(BlackList));
+                    },
+                    onerror: err => console.error('Responsed Error: ', err),
+                    ontimeout: err => console.error('Response timeout: ', err)
+                });
+            }
         });
     }
 
