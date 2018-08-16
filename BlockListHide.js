@@ -256,7 +256,7 @@
                     url: "https://home.gamer.com.tw/ajax/friend_getData.php?here=0",
                     onload: data => {
                         console.log(data);
-                        let BlackList = data.response.match(/data\-gamercard\-userid\=\"[\s\S]*?\"/g).map(value => value.replace(/data\-gamercard\-userid\=\"|\"/g, '').toLowerCase());
+                        let BlackList = data.responseText.match(/data\-gamercard\-userid\=\"[\s\S]*?\"/g).map(value => value.replace(/data\-gamercard\-userid\=\"|\"/g, '').toLowerCase());
                         console.log('Get blacklist data from Bahamut server.');
                         localStorage.setItem('BHBlackList', JSON.stringify({ time: new Date().getTime(), BlackList: BlackList }));
                         resolve(BlackListHandle(BlackList));
