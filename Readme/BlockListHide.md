@@ -1,3 +1,5 @@
+前置需求：**建議**安裝 Tampermonkey ([Chrome](https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo)) ([Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey)) ([Safari](https://safari.tampermonkey.net/tampermonkey.safariextz)) ([Edge](https://www.microsoft.com/store/apps/9NBLGGH5162S))
+
 在巴哈姆特的Ｂ、Ｃ頁將黑名單和關鍵字過濾文章留言，在頂端列可以開關過濾器（一次性）。
 為避免伺服器負擔，黑名單單日內只會獲取一次。
 如果需要強制重新獲取的話，在過濾器設定中有按鈕可以按，重整後即會重新獲取。
@@ -9,7 +11,7 @@
 黑名單會自動獲取已經被黑名單的列表，但若要手動添加，可於上方參數進行添加。
 可以添加強制顯示、強制隱藏，這兩個參數會優先於黑名單列表。
 ＩＤ只能在強制顯示與強制隱藏其中一個清單內，不會有重複（輸入時會被提醒）。
-輸入的ＩＤ**不分大小寫**。
+輸入的ＩＤ **不分大小寫**。
 
 ##關鍵字隱藏##
 腳本除了黑名單也提供了關鍵字隱藏，可以個別設定當文章或是留言含有什麼關鍵字就隱藏。
