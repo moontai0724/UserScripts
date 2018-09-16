@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會、動畫瘋）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.4
+// @version      3.4.1
 // @description  巴哈姆特自動簽到（含公會、動畫瘋） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -33,7 +33,7 @@
     //       若延後，當時間到了，會檢查答案出來了沒？如果答案出來了，就會自動作答；還沒，就會再跳視窗。
     // 若否，每日尚未作答題目時，將會跳出手動答題視窗。
     // 請注意，答案不保證正確性，若當日答錯無法領取獎勵，我方或答案提供方並不為此負責。
-    var autoGetAnimeAnsFromblackxblue = true;
+    var autoGetAnimeAnsFromblackxblue = false;
 
     // 如果當天 00:00 後幾分鐘內答案還沒出來，不要提醒我手動作答？1440 分鐘 = 24 小時 = 不提醒
     var dailyDelayNotice = 0;
