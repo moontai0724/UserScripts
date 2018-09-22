@@ -336,6 +336,7 @@
                         console.error("\u56DE\u7B54\u554F\u984C\u5931\u6557: ".concat(err.msg));
                         document.getElementById('manualAnswer_Content').innerHTML = "\u56DE\u7B54\u554F\u984C\u5931\u6557: ".concat(err.msg);
                     });
+                    GM_setValue('AnimeQuizAnswered', true);
                     document.getElementById('manualAnswer_AnswerButton').innerHTML = '關閉';
                     document.getElementById('manualAnswer_AnswerButton').setAttribute('onclick', "jQuery('#manualAnswer_Background').remove();");
                 }
