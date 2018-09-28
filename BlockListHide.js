@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈黑名單、關鍵詞、字數過少隱藏顯示
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      2.4.7
+// @version      2.4.8
 // @description  在巴哈姆將黑名單、關鍵詞、字數過少過濾文章留言，在頂端列可以開關過濾器（一次性）
 // @author       moontai0724
 // @match        https://forum.gamer.com.tw/B.php*
@@ -45,34 +45,6 @@
             }
         })), console.log('New Setting'));
     var setting = JSON.parse(localStorage.getItem("BLH_Setting"));
-    // 新舊轉換
-    if (setting.data.blockKeywordsFC == undefined || setting.keywordPostFilter == undefined) {
-        setting = {
-            switch: {
-                keywordPostFilter: setting.switch.keywordPostFliter ? setting.switch.keywordPostFliter : setting.switch.keywordPostFilter,
-                keywordCommentFilter: setting.switch.keywordCommentFliter ? setting.switch.keywordCommentFliter : setting.switch.keywordCommentFilter,
-                blacklistPostFilter: setting.switch.blacklistPostFliter ? setting.switch.blacklistPostFliter : setting.switch.blacklistPostFilter,
-                blacklistCommentFilter: setting.switch.blacklistCommentFliter ? setting.switch.blacklistCommentFliter : setting.switch.blacklistCommentFilter,
-                contentLengthPostFilter: setting.switch.contentLengthPostFliter ? setting.switch.contentLengthPostFliter : setting.switch.contentLengthPostFilter,
-                contentLengthCommentFilter: setting.switch.contentLengthCommentFliter ? setting.switch.contentLengthCommentFliter : setting.switch.contentLengthCommentFilter
-            },
-            lengthLimit: {
-                contentLengthPostLimit: setting.lengthLimit.contentLengthPostLimit,
-                contentLengthCommentLimit: setting.lengthLimit.contentLengthCommentLimit
-            },
-            data: {
-                forceShowList: setting.data.forceShowList,
-                forceHideList: setting.data.forceHideList,
-                blockKeywordsPC: setting.data.blockKeywords ? setting.data.blockKeywords : setting.data.blockKeywordsPC,
-                postBlockKeywordsPC: setting.data.postBlockKeywords ? setting.data.postBlockKeywords : setting.data.postBlockKeywordsPC,
-                commentBlockKeywordsPC: setting.data.commentBlockKeywords ? setting.data.commentBlockKeywords : setting.data.commentBlockKeywordsPC,
-                blockKeywordsFC: [],
-                postBlockKeywordsFC: [],
-                commentBlockKeywordsFC: []
-            }
-        };
-        localStorage.setItem("BLH_Setting", JSON.stringify(setting));
-    }
 
     // 加入隱藏切換
     jQuery('head').append('<style type="text/css" id="BLH_BlockHideCSS">.BlockHide { display: none !important; }</style>');
