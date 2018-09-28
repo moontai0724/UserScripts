@@ -316,6 +316,13 @@
         manualAnswer_AnswerButton.id = 'manualAnswer_AnswerButton';
         document.getElementById('manualAnswer_BottomArea').appendChild(manualAnswer_AnswerButton);
 
+        // Answer button
+        let manualAnswer_getAnswerButton = document.createElement('button');
+        manualAnswer_getAnswerButton.innerHTML = '獲取答案';
+        manualAnswer_getAnswerButton.id = 'manualAnswer_getAnswerButton';
+        manualAnswer_getAnswerButton.style = 'margin-left: 10px;';
+        document.getElementById('manualAnswer_BottomArea').appendChild(manualAnswer_getAnswerButton);
+
         document.getElementById('manualAnswer_BottomArea').innerHTML += '<div style="margin-left: 10px;">延後 ' +
             '<input type="number" name="manualAnswer_DelayTime" min="1" max="1440" value="10">' +
             ' 分鐘後再提醒我<button id="manualAnswer_DelayButton" style="margin-left: 10px;">延時</button></div>';
@@ -343,6 +350,8 @@
             }
         }
 
+        document.getElementById('manualAnswer_getAnswerButton').onclick = () => getTodayAnswer().then(ans => window.alert('從 blackxblue 小屋獲取的答案可能是：' + ans), err => window.alert('目前尚未有答案＞＜可至官方粉絲團尋找答案哦～'));
+
         document.getElementById('manualAnswer_DelayButton').onclick = () => {
             let delayTime = document.getElementsByName('manualAnswer_DelayTime')[0].value;
             if (1440 >= Number(delayTime) && Number(delayTime) >= 1) {
@@ -353,4 +362,5 @@
             }
         }
     }
+    // manualAnswer({ "game": "\u9f8d\u738b\u7684\u5de5\u4f5c\uff01", "question": "\u9f8d\u738b\u7684\u5f1f\u5b50\u662f\u4ee5\u4e0b\u54ea\u4f4d?", "a1": "\u7a7a\u9280\u5b50", "a2": "\u96db\u9db4\u611b", "a3": "\u6c34\u8d8a\u6faa", "a4": "\u8c9e\u4efb\u7dbe\u4e43", "userid": "ww891113", "token": "01e0779c7298996032acdacac3261fac28d32e8bb44f4dda5badb111" });
 })();
