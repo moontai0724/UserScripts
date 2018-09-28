@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會、動畫瘋）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.4.1
+// @version      3.4.2
 // @description  巴哈姆特自動簽到（含公會、動畫瘋） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
