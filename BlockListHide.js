@@ -132,11 +132,11 @@
             // blacklist comment filter
             if (setting.switch.blacklistCommentFilter) startFilter('blacklist', 'comment', '.reply-content__user', '.c-reply__item');
             // keywords post filter
-            if (setting.switch.keywordPostFilter) (startFilter('postBlockKeywordsPC', 'post', '.c-article__content', '.c-section'), startFilter('postBlockKeywordsFC', 'post', '.c-article__content', '.c-section'));
+            if (setting.switch.keywordPostFilter) (startFilter('postBlockKeywordsPC', 'post', '.c-article.FM-P2', '.c-section'), startFilter('postBlockKeywordsFC', 'post', '.c-article.FM-P2', '.c-section'));
             // keywords comment filter
             if (setting.switch.keywordCommentFilter) (startFilter('commentBlockKeywordsPC', 'post', '.reply-content__article', '.c-reply__item'), startFilter('commentBlockKeywordsFC', 'post', '.reply-content__article', '.c-reply__item'));
             // post content length filter
-            if (setting.switch.contentLengthPostFilter) startFilter('contentLengthPostLimit', 'post', '.c-article__content', '.c-section');
+            if (setting.switch.contentLengthPostFilter) startFilter('contentLengthPostLimit', 'post', '.c-article.FM-P2', '.c-section');
             // comment content length filter
             if (setting.switch.contentLengthCommentFilter) startFilter('contentLengthCommentLimit', 'comment', '.reply-content__article', '.c-reply__item');
             // popular recommend title filter
@@ -167,7 +167,7 @@
         if (filterType.includes('Keyword') && filterType.includes('PC')) {
             console.log('Keyword part compare filter start.');
             jQuery(target).each((index, element) => setting.data[filterType].forEach(value => {
-                if (element.innerText.toLowerCase().includes(value)) {
+                if (element.innerText.toLowerCase().replace(/\s/g, '').includes(value)) {
                     jQuery(element).parents(hideClass).addClass('BlockHide');
                     console.log('Hid a ' + elementType + ' includes keyword: ' + value, jQuery(element).parents(hideClass));
                 }
@@ -175,7 +175,7 @@
         } else if (filterType.includes('Keyword') && filterType.includes('FC')) {
             console.log('Keyword full compare filter start.');
             jQuery(target).each((index, element) => setting.data[filterType].forEach(value => {
-                if (element.innerText.toLowerCase() == value) {
+                if (element.innerText.toLowerCase().replace(/\s/g, '') == value) {
                     jQuery(element).parents(hideClass).addClass('BlockHide');
                     console.log('Hid a ' + elementType + ' includes keyword: ' + value, jQuery(element).parents(hideClass));
                 }
