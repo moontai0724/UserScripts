@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈黑名單、關鍵詞、字數過少隱藏顯示
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      2.4.8
+// @version      2.4.9
 // @description  在巴哈姆將黑名單、關鍵詞、字數過少過濾文章留言，在頂端列可以開關過濾器（一次性）
 // @author       moontai0724
 // @match        https://forum.gamer.com.tw/B.php*
