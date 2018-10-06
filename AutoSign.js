@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會、動畫瘋）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.4.2
+// @version      3.4.2.1
 // @description  巴哈姆特自動簽到（含公會、動畫瘋） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -57,7 +57,7 @@
                     if (!signGuild) GM_setValue('LastAutoSignTime', (new Date()).getTime());
                     break;
                 case -1:
-                    console.log("Not logged in");
+                    console.log("Not logged in", data);
                     if (location.href != 'https://user.gamer.com.tw/login.php') {
                         if (window.confirm('您尚未登入！簽到作業無法正確執行。是否立刻導向至登入網頁？')) {
                             location.href = 'https://user.gamer.com.tw/login.php';
