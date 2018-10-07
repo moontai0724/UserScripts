@@ -49,7 +49,7 @@
         checkSign().then(data => {
             switch (data.signin) {
                 case 1:
-                    console.log("Signed", data);
+                    console.log("Signed", JSON.stringify(data));
                     if (!signGuild) GM_setValue('LastAutoSignTime', (new Date()).getTime());
                     break;
                 case 0:
@@ -57,7 +57,7 @@
                     if (!signGuild) GM_setValue('LastAutoSignTime', (new Date()).getTime());
                     break;
                 case -1:
-                    console.log("Not logged in", data);
+                    console.log("Not logged in", JSON.stringify(data));
                     if (location.href != 'https://user.gamer.com.tw/login.php') {
                         if (window.confirm('您尚未登入！簽到作業無法正確執行。是否立刻導向至登入網頁？')) {
                             location.href = 'https://user.gamer.com.tw/login.php';
