@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會、動畫瘋）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.4.2.1
+// @version      3.4.2.2
 // @description  巴哈姆特自動簽到（含公會、動畫瘋） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -90,7 +90,7 @@
                                         sort < guild_list.length - 1 ? sign(sort + 1) : (console.log('Guild sign success!'), GM_setValue('LastAutoSignTime', (new Date()).getTime()));
                                     }
                                 });
-                            })(0) : console.log('No guild.');
+                            })(0) : (console.log('No guild.'), GM_setValue('LastAutoSignTime', (new Date()).getTime()));
                         }
                     }
                 });
