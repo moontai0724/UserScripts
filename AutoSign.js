@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會、動畫瘋）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.4.2.2
+// @version      3.4.2.3
 // @description  巴哈姆特自動簽到（含公會、動畫瘋） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -183,7 +183,7 @@
                     reject('No url found.');
                     return 0;
                 }
-                getCORS('https://home.gamer.com.tw/' + url).then(page => resolve(/A:(\d)/.exec(jQuery(page).find('.MSG-list8C').find('div').text().replace(/\s/g, ""))[1]));
+                getCORS('https://home.gamer.com.tw/' + url).then(page => resolve(/A:(\d)/.exec(jQuery(page).find('.MSG-list8C').text().replace(/\s/g, ""))[1]));
             });
         });
     }
