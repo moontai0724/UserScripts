@@ -183,7 +183,7 @@
                     reject('No url found.');
                     return 0;
                 }
-                getCORS('https://home.gamer.com.tw/' + url).then(page => resolve(/A:(\d)/.exec(jQuery(page).find('.MSG-list8C').text().replace(/\s/g, ""))[1]));
+                getCORS('https://home.gamer.com.tw/' + url).then(page => resolve(/A:(\d)/.exec(jQuery(page).find('.MSG-list8C').text().replace(/\s/g, "").replace(/：/g, ":"))[1]));
             });
         });
     }
