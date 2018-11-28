@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈姆特自動簽到（含公會、動畫瘋）
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      3.4.2.4
+// @version      3.4.2.5
 // @description  巴哈姆特自動簽到（含公會、動畫瘋） by.moontai0724
 // @author       moontai0724
 // @match        https://*.gamer.com.tw/*
@@ -108,8 +108,18 @@
                 console.log("\u7B54\u984C\u6210\u529F: ".concat(result.gift));
             }, function (err) {
                 console.error("\u56DE\u7B54\u554F\u984C\u5931\u6557: ".concat(err.msg));
-            }), () => ((new Date(new Date().setHours(0, 0, 0, 0))).getTime() + dailyDelayNotice * 1000) < (new Date()).getTime() ? getQuestion().then(manualAnswer) : void (0));
-        } else getQuestion().then(manualAnswer);
+            }), () => {
+                if (((new Date(new Date().setHours(0, 0, 0, 0))).getTime() + dailyDelayNotice * 1000) < (new Date()).getTime()) {
+                    getQuestion().then(question => {
+                        if (question.error) GM_setValue('AnimeQuizAnswered', true);
+                        else manualAnswer(question);
+                    });
+                }
+            });
+        } else getQuestion().then(question => {
+            if (question.error) GM_setValue('AnimeQuizAnswered', true);
+            else manualAnswer(question);
+        });
     }
 
     // days: 已連續簽到天數
