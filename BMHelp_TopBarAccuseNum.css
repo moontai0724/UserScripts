@@ -1,0 +1,238 @@
+/* 小窗 */
+.TOP-bh .AccuseInfo, .BA-top .AccuseInfo {
+    font-size: 13px;
+    position: absolute;
+    right: 100px;
+    top: 35px;
+    background-color: #FFF;
+    border: 1px solid #117e96;
+    border-top: none;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    word-break: break-all;
+    word-wrap: break-word;
+    z-index: 1000;
+    width: 400px;
+    display: none;
+}
+
+/* 小窗中的 title */
+.TOP-bh .AccuseInfo > span, .BA-top .AccuseInfo > span {
+    display:block;
+    background-color:#249db8;
+    color:#FFFFFF;
+    padding:3px 10px;
+}
+
+/* 小窗中的 list */
+.TOP-bh .AccuseList, .BA-top .AccuseList {
+    max-height:500px;
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 小窗 list 中的 a 樣式 */
+.TOP-bh .AccuseList a, .BA-top .AccuseList a { color:#0055aa; }
+.TOP-bh .AccuseList a:hover, .BA-top .AccuseList a:hover { color:#0055aa; }
+
+/* 小窗 list 中的 div 樣式 */
+.TOP-bh .AccuseList div, .BA-top .AccuseList div {
+    padding:5px;
+    border-top:1px solid #e5e5e5;
+    overflow:auto;
+}
+.TOP-bh .AccuseList div:hover, .BA-top .AccuseList div:hover { background-color:#f6f6f6; }
+
+/* 內頁天按鈕區塊 */
+.TOP-bh #BMHelp_TopBarAccuseNum, .BA-top #BMHelp_TopBarAccuseNum {
+    float: right;
+    display: flex;
+    box-sizing: content-box;
+}
+
+/* 內頁天按鈕 */
+.TOP-bh .AccuseBtn, .BA-top .AccuseBtn {
+    float: left;
+    display: block;
+    position: relative;
+    padding: 0 6px;
+    width: 25px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
+
+/* 內頁天按鈕上檢舉數 */
+.TOP-bh .AccuseBtn span, .BA-top .AccuseBtn span {
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0px;
+    border-radius: 2px;
+    padding: 2px 3px;
+    background-color: #FF0000;
+    font-size: 12px;
+    line-height: 1em;
+    color: #FFF;
+    -webkit-transform: scale(0.9, 0.9);
+    transform: scale(0.9, 0.9);
+}
+.TOP-bh .AccuseBtn:before, .BA-top .AccuseBtn:before {
+    display: inline-block;
+    font-family: 'FontAwesome';
+    font-size: 19px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color: #0c5d72;
+}
+
+/* 有檢舉時的按鈕樣式 */
+.TOP-bh .AccuseBtn.HasAccuse:before { color: #FFF; }
+.BA-top .AccuseBtn.HasAccuse:before { color: #249db8; }
+
+/* 當 hover 按鈕時 */
+.TOP-bh .AccuseBtn:hover { background: #249db8; }
+.BA-top .AccuseBtn:hover { background: none; }
+
+/* 當外層有 nowshow 時顯示 list */
+.TOP-bh .nowshow > div { display: block; }
+.TOP-bh .nowshow > a { background: #249db8; }
+
+/* 當首頁外層有 nowshow 時不顯示按鈕背景，按鈕顏色顯示 #249db8 */
+.BA-top .nowshow > div { display: block; }
+.BA-top .nowshow a { background: none; }
+.BA-top .nowshow a:before { color: #249db8; }
+
+/* 內頁天按鈕圖樣 */
+#BMHelp_TopBarAccuseNum_post_Btn:before { content: "\\f15c"; }
+#BMHelp_TopBarAccuseNum_comment_Btn:before { content: "\\f0ca"; }
+#BMHelp_TopBarAccuseNum_chatRoom_Btn:before { content: "\\f0e5"; }
+
+/* 動畫瘋 */
+/* 動畫瘋沒有指定字型因此加入 */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0');
+  src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 小窗 */
+.sky .AccuseInfo {
+    font-size: 1.4rem;
+    max-width: 400px;
+    position: absolute;
+    right: 0px;
+    top: 37px;
+    background-color: #FFF;
+    border: 1px solid #00B4D8;
+    border-top: none;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    word-break: break-all;
+    word-wrap: break-word;
+    z-index: 1000;
+    line-height: 1.5rem;
+    min-width: 320px;
+    display: none;
+}
+@media (min-width: 1000px) {
+    .sky .AccuseInfo {
+        top: 52px;
+        right: -50px;
+    }
+}
+
+/* 小窗中的 title */
+.sky .AccuseInfo > span {
+    display: block;
+    background-color: #00B4D8;
+    color: #FFFFFF;
+    padding: 8px 10px;
+}
+
+/* 小窗中的 list */
+.sky .AccuseList {
+    max-height: 400px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 小窗 list 中的 a 樣式 */
+.sky .AccuseList a { color:#0055aa; }
+.sky .AccuseList a:hover { color:#0055aa; }
+
+/* 小窗 list 中的 div 樣式 */
+.sky .AccuseList div {
+    padding: 10px;
+    border-top: 1px solid #e5e5e5;
+    overflow: auto;
+    font-size: 1.4rem;
+}
+.sky .AccuseList div:hover { background-color:#f6f6f6; }
+
+/* 內頁天按鈕區塊 */
+.sky #BMHelp_TopBarAccuseNum {
+    float: right;
+    display: flex;
+    box-sizing: content-box;
+    margin-top: 3px;
+    position: relative;
+}
+
+/* 內頁天按鈕個別區塊 */
+.sky #BMHelp_TopBarAccuseNum > div {
+    width: 35px;
+    height: 40px;
+    background-size: 140px;
+    font-size: 2em;
+    line-height: 24px;
+}
+@media (min-width: 1000px) {
+    .sky #BMHelp_TopBarAccuseNum > div {
+        width: 35px;
+        margin-right: 15px;
+        font-size: 2.8em;
+        line-height: 40px;
+    }
+}
+
+/* 內頁天按鈕 */
+.sky .AccuseBtn {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.sky .AccuseBtn:before {
+    display: inline-block;
+    font-family: 'FontAwesome';
+    font-size: 19px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color: #888;
+}
+
+/* 內頁天按鈕上檢舉數 */
+.sky .AccuseBtn span {
+    position: absolute;
+    top: 0px;
+    right: 2px;
+    border-radius: 5px;
+    background: red;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 18px;
+    vertical-align: middle;
+    color: #fff;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* 當 hover 按鈕時 */
+.sky .AccuseBtn:hover:before { color: #333; }
+
+/* 當外層有 nowshow 時顯示 list */
+.sky .nowshow > div { display: block; }
