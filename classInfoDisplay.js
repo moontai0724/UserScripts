@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         靜宜大學課程清單選課人數顯示
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      1.0
+// @version      1.0.1
 // @description  於靜宜大學課程清單網頁顯示目前選課人數與人數上限
 // @author       moontai0724
-// @match        http://alcat.pu.edu.tw/2011courseAbstract/main.php*
+// @match        https://alcat.pu.edu.tw/2011courseAbstract/main.php*
 // @grant        none
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
@@ -25,7 +25,7 @@
                 if (classNumber != "") {
                     jQuery.ajax({
                         type: "POST",
-                        url: "http://alcat.pu.edu.tw/choice/q_person.html",
+                        url: "https://alcat.pu.edu.tw/choice/q_person.html",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded;",
                         },
