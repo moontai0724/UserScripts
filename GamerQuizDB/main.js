@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈動漫電玩通題庫與解答系統
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      4.0.1
+// @version      4.0.2
 // @description  巴哈動漫電玩通題庫與解答系統，蒐集題庫中～
 // @author       moontai0724
 // @match        https://forum.gamer.com.tw/B.php*
