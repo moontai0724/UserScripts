@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         巴哈動漫電玩通題庫與解答系統
 // @namespace    https://home.gamer.com.tw/moontai0724
-// @version      4.0.2
+// @version      4.0.3
 // @description  巴哈動漫電玩通題庫與解答系統，蒐集題庫中～
 // @author       moontai0724
 // @match        https://forum.gamer.com.tw/B.php*
@@ -142,8 +142,12 @@
                     jQuery(".quizrp.report_status").html(data.message);
 
                     // if success, add class to status
-                    if (data.success)
+                    if (data.success) {
                         jQuery(".quizrp.report_status").addClass("success");
+                        resolve();
+                    } else {
+                        reject();
+                    }
 
                     // remove loading style
                     qabox.css("background-color", "");
