@@ -166,8 +166,14 @@
         // monitor remove value button
         jQuery(".HBL.SW_item .SW_removeValue").on("click", removeValuesEventHandler);
 
+        // monitor manual backup button
+        jQuery(".HBL.SW_item.manualBackup button").on("click", manualBackupEventHandler);
+
+        // monitor manual restore button
+        jQuery(".HBL.SW_item.manualRestore button").on("click", manualRestoreEventHandler);
+
         // monitor reset setting button
-        jQuery(".HBL.SW_item.resetSetting").on("click", resetSetting);
+        jQuery(".HBL.SW_item.resetSetting button").on("click", resetSetting);
 
         // monitor close button
         jQuery("button.HBL.close").on("click", closeSettingWindow);
@@ -379,5 +385,80 @@
         // Remove value from view
         jQuery(`.SW_item[data-id="${dataKey}"] label[data-value="${value}"]`).remove();
         saveSetting();
+    }
+
+    /**
+     * Handle click event of manual backup button
+     * @param {Event} event button click event
+     */
+    function manualBackupEventHandler(event) {
+        var target = jQuery(event.target).parents(".SW_item");
+        if (debug) console.log("BlockListHide: manual backup setting", target);
+        target.find("input[type=text]").val(JSON.stringify(setting));
+    }
+
+    /**
+     * Handle click event of manual restore button
+     * @param {Event} event button click event
+     */
+    function manualRestoreEventHandler(event) {
+        var target = jQuery(event.target).parents(".SW_item");
+        if (debug) console.log("BlockListHide: manual restore setting", target);
+        var settingFromUser = target.find("input[type=text]").val().replace(/\s/g, "");
+
+        // check input is JSON or not
+        try {
+            settingFromUser = JSON.parse(settingFromUser);
+        } catch (e) {
+            window.alert("請在輸入框中貼上正確的設定！");
+            return false;
+        }
+
+        const settingStructure = {
+            switch: {
+                keywordPostFilter: "boolean",
+                keywordCommentFilter: "boolean",
+                blacklistPostFilter: "boolean",
+                blacklistCommentFilter: "boolean",
+                contentLengthPostFilter: "boolean",
+                contentLengthCommentFilter: "boolean",
+            },
+            lengthLimit: {
+                contentLengthPostLimit: "number",
+                contentLengthCommentLimit: "number"
+            },
+            data: {
+                forceShowList: "object",
+                forceHideList: "object",
+                blockKeywordsPC: "object",
+                postBlockKeywordsPC: "object",
+                commentBlockKeywordsPC: "object",
+                blockKeywordsFC: "object",
+                postBlockKeywordsFC: "object",
+                commentBlockKeywordsFC: "object"
+            }
+        }
+
+        if (debug) console.log("BlockListHide: validating settingFromUser...", settingFromUser);
+        // check setting structure is correct
+        for (let settingKey in setting) {
+            if (settingFromUser[settingKey]) {
+                for (let dataKey in setting[settingKey]) {
+                    console.log("BlockListHide: ", typeof settingFromUser[settingKey][dataKey], settingStructure[settingKey][dataKey])
+                    if (typeof settingFromUser[settingKey][dataKey] === "undefined") {
+                        window.alert(`設定檔有缺失必要內容：「${settingKey}」下的「${dataKey}」，請重新確認內容。`);
+                        return false;
+                    } else if (typeof settingFromUser[settingKey][dataKey] !== settingStructure[settingKey][dataKey]) {
+                        window.alert(`設定檔資料型態錯誤：「${settingKey}」下的「${dataKey}」，應該要是「${settingStructure[settingKey][dataKey]}」但偵測到「${typeof settingFromUser[settingKey][dataKey]}」請重新確認內容。`);
+                        return false;
+                    }
+                }
+            } else {
+                window.alert(`設定檔有缺失必要內容：「${settingKey}」，請重新確認內容。`);
+                return false;
+            }
+        }
+
+        if (debug) console.log("BlockListHide: restore setting succeed!");
     }
 })(jQuery);
