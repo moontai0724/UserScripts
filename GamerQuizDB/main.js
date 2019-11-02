@@ -192,8 +192,8 @@
         return new Promise(function (resolve, reject) {
             getCSRFToken().then(function (CSRFToken) {
                 (function next(ans) {
-                    return new Promise(function (resolve, reject) {
-                        if (answerQuiz(ans, CSRFToken, false))
+                    return new Promise(async function (resolve, reject) {
+                        if (await answerQuiz(ans, CSRFToken, false))
                             resolve(ans);
                         else if (ans > 4)
                             reject();
