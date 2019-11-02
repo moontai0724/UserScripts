@@ -120,41 +120,44 @@
 
     // Start report to database
     function DB_post(this_answered, correctness) {
-        qabox.css("background-color", "#cccccc");
-        GM_xmlhttpRequest({
-            method: 'POST',
-            url: 'https://script.google.com/macros/s/AKfycbxYKwsjq6jB2Oo0xwz4bmkd3-5hdguopA6VJ5KD/exec',
-            data: JSON.stringify({
-                "version": GM_info.script.version,
-                "sn": quizrp_quiz.sn,
-                "question": quizrp_quiz.question,
-                "options": quizrp_quiz.options,
-                "BoardSN": quizrp_quiz.bsn,
-                "reporter": BAHAID,
-                "author": quizrp_quiz.author,
-                "this_answered": this_answered,
-                "correctness": correctness
-            }),
-            onload: function (data) {
-                data = JSON.parse(data.response);
+        return new Promise((resolve, reject) => {
+            qabox.css("background-color", "#cccccc");
+            GM_xmlhttpRequest({
+                method: 'POST',
+                url: 'https://script.google.com/macros/s/AKfycbxYKwsjq6jB2Oo0xwz4bmkd3-5hdguopA6VJ5KD/exec',
+                data: JSON.stringify({
+                    "version": GM_info.script.version,
+                    "sn": quizrp_quiz.sn,
+                    "question": quizrp_quiz.question,
+                    "options": quizrp_quiz.options,
+                    "BoardSN": quizrp_quiz.bsn,
+                    "reporter": BAHAID,
+                    "author": quizrp_quiz.author,
+                    "this_answered": this_answered,
+                    "correctness": correctness
+                }),
+                onload: function (data) {
+                    data = JSON.parse(data.response);
 
-                jQuery(".quizrp.report_status").html(data.message);
+                    jQuery(".quizrp.report_status").html(data.message);
 
-                // if success, add class to status
-                if (data.success)
-                    jQuery(".quizrp.report_status").addClass("success");
+                    // if success, add class to status
+                    if (data.success)
+                        jQuery(".quizrp.report_status").addClass("success");
 
-                // remove loading style
-                qabox.css("background-color", "");
-            }
-        });
+                    // remove loading style
+                    qabox.css("background-color", "");
+                }
+            });
+        })
     }
 
     function manualAnswer(option) {
         if (BAHAID) {
             AlreadyAnswered = true;
             getCSRFToken().then(CSRFToken => answerQuiz(option, CSRFToken).then(correctness => {
-                DB_post(option, correctness);
+                if (correctness)
+                    DB_post(option, correctness);
             }));
         } else {
             if (window.confirm('您尚未登入！'))
@@ -169,8 +172,7 @@
                 if (data.success) {
                     jQuery(".quizrp.report_status").html('題庫中有答案，無須回報。').css("color", "green");
                 } else {
-                    getAnswer().then(ans => DB_post(ans, true));
-                    display_original_quiz();
+                    getAnswer().then(ans => DB_post(ans, true).then(display_original_quiz));
                 }
             });
         }
