@@ -1,0 +1,3 @@
+前置需求：**建議**安裝 Tampermonkey ([Chrome](https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo)) ([Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey)) ([Safari](https://safari.tampermonkey.net/tampermonkey.safariextz)) ([Edge](https://www.microsoft.com/store/apps/9NBLGGH5162S))
+
+詳細請參閱：[https://home.gamer.com.tw/creationDetail.php?sn=4587238](https://home.gamer.com.tw/creationDetail.php?sn=4587238)
