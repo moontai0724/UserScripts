@@ -51,7 +51,6 @@
      * If old config exists, convert it from local storage to script storage
      */
     function getConfig() {
-
         let tempConfig = GM_getValue("HBL_Config", {
             "switch": {
                 "keyword": {
@@ -216,7 +215,7 @@
     function isJSON(data) {
         try {
             data = JSON.parse(JSON.stringify(data));
-            if (data.length === undefined)
+            if (typeof data === "object" && data.length === undefined)
                 return true;
             return false;
         } catch (e) {
