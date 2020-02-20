@@ -153,7 +153,7 @@
     /**
      * To reset config
      */
-    function resetConfig() {
+    function resetConfigHandler() {
         if (window.confirm("確定要初始化設定？")) {
             GM_deleteValue("HBL_Config");
             config = getConfig();
@@ -163,7 +163,7 @@
     /**
      * Handle click event of manual restore button
      */
-    function restoreConfig() {
+    function restoreConfigHandler() {
         let configFromUser = jQuery(".manualRestore input[type=text]").val().replace(/\s/g, "");
 
         // check input is JSON or not
@@ -180,7 +180,7 @@
 
         config = configFromUser;
         saveConfig();
-        closeSettingWindow();
+        closeSettingWindowHandler();
         openSettingWindow();
     }
 
@@ -243,7 +243,7 @@
      * @param {String} key keyword|id|length
      * @param {String} contentType post|comment
      */
-    function toggleSwitch(key, contentType) {
+    function toggleSwitchHandler(key, contentType) {
         config.switch[key][contentType] = !config.switch[key][contentType];
         saveConfig();
     }
@@ -252,7 +252,7 @@
      * Change content length limit
      * @param {String} contentType post|comment
      */
-    function changeLengthLimit(contentType) {
+    function changeLengthLimitHandler(contentType) {
         const lengthLimit = window.prompt("請輸入半形正整數，若輸入５將過濾５字內（含５字）內容。");
         if (/^\d+$/.test(lengthLimit) && parseInt(lengthLimit) > 0) {
             config.data.length[contentType] = parseInt(lengthLimit);
@@ -499,7 +499,7 @@
     /**
      * Close setting window
      */
-    function closeSettingWindow() {
+    function closeSettingWindowHandler() {
         jQuery(".HBL.popup").remove();
     }
 
@@ -514,14 +514,14 @@
                 config: config
             },
             methods: {
-                toggleSwitch: toggleSwitch,
-                changeLengthLimit: changeLengthLimit,
+                toggleSwitch: toggleSwitchHandler,
+                changeLengthLimit: changeLengthLimitHandler,
                 addValues: addValuesHandler,
                 removeKeyword: removeKeywordHandler,
                 removeId: removeIdHandler,
-                restoreConfig: restoreConfig,
-                resetConfig: resetConfig,
-                closeSettingWindow: closeSettingWindow
+                restoreConfig: restoreConfigHandler,
+                resetConfig: resetConfigHandler,
+                closeSettingWindow: closeSettingWindowHandler
             }
         });
     }
